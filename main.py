@@ -1,12 +1,11 @@
-from window import *
+from window import Window, Point, Line
+from cell import Cell
 
 
 def main():
     win = Window(800, 600)
-    test_point = Point(10, 10)
-    test_point2 = Point(500, 500)
-    test_line = Line(test_point, test_point2)
-    win.draw_line(test_line, "black")
+    test_cell = Cell(True, True, True, True, 300, 500, 300, 500, win)
+    test_cell.draw()
     win.wait_for_close()
 
 
