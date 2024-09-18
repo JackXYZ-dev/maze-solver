@@ -23,6 +23,7 @@ class Maze:
         self._cells = []
 
         self._create_cells()
+        self._break_entrance_and_exit()
 
     def _create_cells(self):
         for i in range(self.num_cols):
@@ -50,4 +51,16 @@ class Maze:
         if self._win is None:
             return
         self._win.redraw()
-        time.sleep(0.05)
+        time.sleep(0.01)
+
+    def _break_entrance_and_exit(self):
+        # The entrance to the maze will always be at the top of the top-left cell,
+        # the exit always at the bottom of the bottom-right cell.
+
+        first_cell = self._cells[0][0]
+        last_cell = self._cells[len(self._cells) - 1][len(self._cells[0]) - 1]
+
+        first_cell.has_top_wall = False
+        last_cell.has_bottom_wall = False
+        self._draw_cell(0, 0)
+        self._draw_cell(len(self._cells) - 1, len(self._cells[0]) - 1)
