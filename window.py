@@ -3,29 +3,27 @@ from tkinter import Tk, BOTH, Canvas
 
 class Window:
     def __init__(self, width, height):
-        self.width = width
-        self.height = height
-        self.root = Tk()
-        self.root.title("My Window Title")
-        self.canvas = Canvas(self.root, width=width, height=height)
-        self.canvas.pack()
-        self.isRunning = False
-        self.root.protocol("WM_DELETE_WINDOW", self.close)
+        self.__root = Tk()
+        self.__root.title("Maze-Solver")
+        self.__canvas = Canvas(self.__root, width=width, height=height)
+        self.__canvas.pack(fill=BOTH, expand=1)
+        self.__isRunning = False
+        self.__root.protocol("WM_DELETE_WINDOW", self.close)
 
     def redraw(self):
-        self.root.update_idletasks()
-        self.root.update()
+        self.__root.update_idletasks()
+        self.__root.update()
 
     def wait_for_close(self):
-        self.isRunning = True
-        while self.isRunning:
+        self.__isRunning = True
+        while self.__isRunning:
             self.redraw()
 
     def close(self):
-        self.isRunning = False
+        self.__isRunning = False
 
-    def draw_line(self, line, fill_colour):
-        line.draw(self.canvas, fill_colour)
+    def draw_line(self, line, line_colour="black"):
+        line.draw(self.__canvas, line_colour)
 
 
 class Point:
@@ -39,12 +37,12 @@ class Line:
         self.point1 = point1
         self.point2 = point2
 
-    def draw(self, win, fill_colour):
-        win.canvas.create_line(
+    def draw(self, canvas, line_colour="black"):
+        canvas.create_line(
             self.point1.x,
             self.point1.y,
             self.point2.x,
             self.point2.y,
-            fill=fill_colour,
+            fill=line_colour,
             width=2,
         )
