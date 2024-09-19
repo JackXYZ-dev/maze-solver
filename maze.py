@@ -64,6 +64,9 @@ class Maze:
         self._draw_cell(len(self._cells) - 1, len(self._cells[0]) - 1)
 
     def _break_walls_r(self, i, j):
+        if i < 0 or i >= self.num_rows or j < 0 or j >= self.num_cols:
+            raise IndexError("Cell index out of range")
+        
         self._cells[i][j].visited = True
         while True:
             to_visit = []
@@ -74,12 +77,12 @@ class Maze:
                 if above_cell.visited == False:
                     to_visit.append((i, j - 1))
             # Right cell
-            if i < len(self._cells[0]) - 1:
+            if i < self.num_rows - 1:
                 right_cell = self._cells[i + 1][j]
                 if right_cell.visited == False:
                     to_visit.append((i + 1, j))
             # Below cell
-            if j < len(self._cells) - 1:
+            if j < self.num_cols - 1:
                 below_cell = self._cells[i][j + 1]
                 if below_cell.visited == False:
                     to_visit.append((i, j + 1))
@@ -113,6 +116,13 @@ class Maze:
                     current_cell.has_left_wall = False
                     next_cell.has_right_wall = False
 
-                current_cell.draw()
-                next_cell.draw()
+                self._draw_cell(i, j)
+                self._draw_cell(next_i, next_j)
+
                 self._break_walls_r(next_i, next_j)
+
+    def _reset_cells_visited(self):
+        # Reset the visited property of all the cells in the Maze to False.
+        for i in range(0, len(self._cells)):
+            for j in range(0, len(self._cells[0])):
+                self._cells[i][j].visited = False
